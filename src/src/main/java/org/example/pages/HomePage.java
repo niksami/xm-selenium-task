@@ -6,14 +6,12 @@ import org.openqa.selenium.WebDriver;
 public class HomePage {
     protected WebDriver driver;
 
-    private String logo = "//*[@id=\"navigation-collapse\"]/div/div[1]/a[1]";
-
     public HomePage(WebDriver driver) {
         this.driver = driver;
-        //PageFactory.initElements(driver, this);
     }
 
-    public boolean isLogoDisplayed() {
-        return driver.findElement((By.xpath(logo))).isDisplayed();
+    public boolean isWelcomeDisplayed() {
+        String text = "//*[@id=\"hero-content\"]/div[3]/div[1]/div[4]/div/div/a/div[1]";
+        return driver.findElement((By.xpath(text))).isDisplayed();
     }
 }

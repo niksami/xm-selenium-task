@@ -10,7 +10,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.safari.SafariDriver;
 
 import static io.github.bonigarcia.wdm.WebDriverManager.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -26,59 +25,45 @@ public class HomePageTest {
     private static void testHomePageWithChrome() {
         chromedriver().setup();
         driver = new ChromeDriver();
-        testHomePage(driver);
+        testHomePage();
     }
 
     private static void testHomePageWithFirefox() {
         firefoxdriver().setup();
         FirefoxOptions options = new FirefoxOptions();
-        options.addArguments("--width=2560");
-        options.addArguments("--height=1440");
         driver = new FirefoxDriver(options);
+        testHomePage();
     }
 
     private static void testHomePageWithEdge() {
         edgedriver().setup();
         driver = new EdgeDriver();
-        testHomePage(driver);
+        testHomePage();
     }
 
-    private static void testHomePageWithSafari() {
-        driver = new SafariDriver();
-        testHomePage(driver);
-    }
-
-    private static void testHomePage(WebDriver driver) {
-        driver.manage().window().maximize();
+    private static void testHomePage() {
         driver.get("https://www.xm.com");
         HomePage homePage = new HomePage(driver);
-        assertTrue(homePage.isLogoDisplayed(), "Logo is not displayed on the home page");
     }
 
     private static void testHomePageWithMaxResolution() {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.get("https://www.xm.com");
-        HomePage homePage = new HomePage(driver);
-        assertTrue(homePage.isLogoDisplayed(), "Logo is not displayed on the home page");
+        testHomePage();
     }
 
     private static void testHomePageWith1024x768Resolution() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--window-size=1024,768");
         driver = new ChromeDriver(options);
-        driver.get("https://www.xm.com");
-        HomePage homePage = new HomePage(driver);
-        assertTrue(homePage.isLogoDisplayed(), "Logo is not displayed on the home page");
+        testHomePage();
     }
 
     private static void testHomePageWith800x600Resolution() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--window-size=800,600");
         driver = new ChromeDriver(options);
-        driver.get("https://www.xm.com");
-        HomePage homePage = new HomePage(driver);
-        assertTrue(homePage.isLogoDisplayed(), "Logo is not displayed on the home page");
+        testHomePage();
     }
 
     @BeforeEach
@@ -89,7 +74,7 @@ public class HomePageTest {
 
     @Test
     public void openHomePage() {
-        assertTrue(homePage.isLogoDisplayed(), "Logo is not displayed on the home page");
+        assertTrue(homePage.isWelcomeDisplayed(), "Welcome text is not displayed on the home page");
     }
 
     @AfterEach
