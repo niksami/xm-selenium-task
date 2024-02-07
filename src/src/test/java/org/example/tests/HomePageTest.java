@@ -1,6 +1,8 @@
 package org.example.tests;
 
 import org.example.pages.HomePage;
+import org.example.pages.StockDetails;
+import org.example.pages.StocksPage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,8 +21,10 @@ public class HomePageTest {
     protected static WebDriver driver;
     protected static HomePage homePage;
 
+    protected static StocksPage stocksPage;
+
     protected static void setupDriver() {
-        testHomePageWith1024x768Resolution();
+        testHomePageWithChrome();
     }
 
     private static void testHomePageWithChrome() {
@@ -44,7 +48,7 @@ public class HomePageTest {
 
     private static void testHomePage() {
         driver.get("https://www.xm.com");
-        HomePage homePage = new HomePage(driver);
+        homePage = new HomePage(driver);
     }
 
     private static void testHomePageWithMaxResolution() {
@@ -71,6 +75,7 @@ public class HomePageTest {
     public void setUp() {
         setupDriver();
         homePage = new HomePage(driver);
+        stocksPage = new StocksPage(driver);
     }
 
     @Test
@@ -79,11 +84,20 @@ public class HomePageTest {
     }
 
     @Test
-    public void openStocksPage() {
+    public void compareStockDetails() {
         homePage.goToStocks();
         assertEquals("Advantages of Stock CFD Trading at XM", homePage.getStockText());
         homePage.goToNorwayStocks();
+        StockDetails stockDetails = stocksPage.stockDetails1();
+        homePage.goToNorwayStocksDetails();
         assertEquals("ORKLA ASA (ORK.OL)", homePage.getOrklaTitle());
+        StockDetails stockDetails2 = stocksPage.stockDetails2();
+        assertEquals(stockDetails.getMinMaxTradeSize(), stockDetails2.getMinMaxTradeSize());
+        assertEquals(stockDetails.getLimitLevels(), stockDetails2.getLimitLevels());
+        assertEquals(stockDetails.getLongSwapValue(), stockDetails2.getLongSwapValue());
+        assertEquals(stockDetails.getShortSwapValue(), stockDetails2.getShortSwapValue());
+        assertEquals(stockDetails.getMarginPercentage(), stockDetails2.getMarginPercentage());
+        assertEquals(stockDetails.getSpreadAsLow(), stockDetails2.getSpreadAsLow());
     }
 
     @AfterEach

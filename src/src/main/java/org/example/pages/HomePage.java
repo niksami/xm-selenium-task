@@ -44,6 +44,8 @@ public class HomePage {
     @FindBy(xpath = "//*[@id=\"top\"]/div[3]/div/div[3]/div/div/div[1]/h1")
     protected static WebElement orklaTitle;
 
+    @FindBy(xpath = "//*[@id=\"top\"]/div[3]/div/div[10]/div[1]/div/h2")
+    protected static WebElement stocksConditions;
 
     public HomePage(WebDriver driver) {
         HomePage.driver = driver;
@@ -63,8 +65,10 @@ public class HomePage {
     public void goToStocks() {
         reInitiatePage();
         WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        webDriverWait.until(visibilityOf(acceptCookies));
-        acceptCookies.click();
+        if (acceptCookies.isDisplayed()) {
+            webDriverWait.until(visibilityOf(acceptCookies));
+            acceptCookies.click();
+        }
         webDriverWait.until(visibilityOf(tradingLink));
         tradingLink.click();
         webDriverWait.until(visibilityOf(stocksLink));
@@ -77,10 +81,14 @@ public class HomePage {
         reInitiatePage();
         WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(20));
         webDriverWait.until(visibilityOf(norwayStocks));
-        scrollToElement(norwayStocks);
+        scrollToElement(stocksConditions);
         norwayStocks.click();
         webDriverWait.until(visibilityOf(searchBar));
         searchBar.sendKeys("Orkla");
+    }
+
+    public void goToNorwayStocksDetails() {
+        WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(20));
         webDriverWait.until(visibilityOf(orklaMore));
         orklaMore.click();
     }
