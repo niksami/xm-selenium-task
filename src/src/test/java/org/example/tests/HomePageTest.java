@@ -12,6 +12,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
 import static io.github.bonigarcia.wdm.WebDriverManager.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HomePageTest {
@@ -75,6 +76,14 @@ public class HomePageTest {
     @Test
     public void openHomePage() {
         assertTrue(homePage.isWelcomeDisplayed(), "Welcome text is not displayed on the home page");
+    }
+
+    @Test
+    public void openStocksPage() {
+        homePage.goToStocks();
+        assertEquals("Advantages of Stock CFD Trading at XM", homePage.getStockText());
+        homePage.goToNorwayStocks();
+        assertEquals("ORKLA ASA (ORK.OL)", homePage.getOrklaTitle());
     }
 
     @AfterEach
